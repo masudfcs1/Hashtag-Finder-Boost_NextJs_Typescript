@@ -536,32 +536,48 @@ const HashtagGenerator: React.FC = () => {
     hashtags: string[]
   }) => (
     <Card className="shadow-lg">
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
-            <Icon className={`h-5 w-5 ${color}`} />
-            {platform.charAt(0).toUpperCase() + platform.slice(1)} ({hashtags.length}/
-            {platformStrategies[platform].maxHashtags})
+      <CardHeader className="pb-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+            <Icon className={`h-4 w-4 sm:h-5 sm:w-5 ${color} flex-shrink-0`} />
+            <span className="truncate">
+              {platform.charAt(0).toUpperCase() + platform.slice(1)} ({hashtags.length}/
+              {platformStrategies[platform].maxHashtags})
+            </span>
           </CardTitle>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={() => regenerateHashtags(platform)} disabled={!title.trim()}>
-              <RefreshCw className="h-4 w-4" />
+          <div className="flex gap-2 flex-shrink-0">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => regenerateHashtags(platform)}
+              disabled={!title.trim()}
+              className="h-8 w-8 p-0 sm:h-9 sm:w-auto sm:px-3"
+            >
+              <RefreshCw className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline ml-1">Regenerate</span>
             </Button>
-            <Button variant="outline" size="sm" onClick={() => copyHashtags(platform)} disabled={hashtags.length === 0}>
-              <Copy className="h-4 w-4" />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => copyHashtags(platform)}
+              disabled={hashtags.length === 0}
+              className="h-8 w-8 p-0 sm:h-9 sm:w-auto sm:px-3"
+            >
+              <Copy className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline ml-1">Copy</span>
             </Button>
           </div>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-0">
         {hashtags.length > 0 ? (
           <>
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
               {hashtags.map((hashtag, index) => (
                 <Badge
                   key={index}
                   variant="secondary"
-                  className={`text-sm py-2 px-3 hover:bg-opacity-80 cursor-pointer group relative ${
+                  className={`text-xs sm:text-sm py-1.5 px-2 sm:py-2 sm:px-3 hover:bg-opacity-80 cursor-pointer group relative ${
                     platform === "youtube"
                       ? "bg-red-100 text-red-800 hover:bg-red-200"
                       : platform === "facebook"
@@ -569,22 +585,24 @@ const HashtagGenerator: React.FC = () => {
                         : "bg-pink-100 text-pink-800 hover:bg-pink-200"
                   }`}
                 >
-                  {hashtag}
+                  <span className="break-all">{hashtag}</span>
                   <button
                     onClick={() => removeHashtag(platform, index)}
-                    className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="ml-1 sm:ml-2 opacity-0 group-hover:opacity-100 transition-opacity"
                   >
-                    <X className="h-3 w-3" />
+                    <X className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                   </button>
                 </Badge>
               ))}
             </div>
-            <div className="bg-gray-50 p-3 rounded-md border">
-              <code className="text-sm text-gray-800 break-all">{hashtags.join(" ")}</code>
+            <div className="bg-gray-50 p-2 sm:p-3 rounded-md border">
+              <code className="text-xs sm:text-sm text-gray-800 break-all leading-relaxed">{hashtags.join(" ")}</code>
             </div>
           </>
         ) : (
-          <p className="text-gray-500 text-center py-8">Generate hashtags to see {platform} suggestions</p>
+          <p className="text-gray-500 text-center py-6 sm:py-8 text-sm sm:text-base">
+            Generate hashtags to see {platform} suggestions
+          </p>
         )}
       </CardContent>
     </Card>
@@ -596,21 +614,26 @@ const HashtagGenerator: React.FC = () => {
   const hasExtractedData = extractedData.keywords.length > 0 || extractedData.searchTerms.length > 0
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 p-4">
-      {/* React Hot Toast container */}
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 p-2 sm:p-4 lg:p-6">
+      {/* React Hot Toast container - Mobile optimized */}
       <Toaster
         position="top-center"
         reverseOrder={false}
         gutter={8}
+        containerStyle={{
+          top: 20,
+        }}
         toastOptions={{
           duration: 3000,
           style: {
             background: "#fff",
             color: "#363636",
             border: "1px solid #e2e8f0",
-            padding: "16px",
+            padding: "12px 16px",
             borderRadius: "8px",
             boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
+            fontSize: "14px",
+            maxWidth: "90vw",
           },
           success: {
             iconTheme: {
@@ -627,54 +650,63 @@ const HashtagGenerator: React.FC = () => {
         }}
       />
 
-      <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <div className="flex items-center justify-center gap-2">
-            <Hash className="h-8 w-8 text-indigo-600" />
-            <h1 className="text-4xl font-bold text-gray-900">Hashtag Finder — Boost Your Reach toHashtag Generator</h1>
+      <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
+        {/* Header - Mobile optimized */}
+        <div className="text-center space-y-2 px-2">
+          <div className="flex items-center justify-center gap-2 flex-wrap">
+            <Hash className="h-6 w-6 sm:h-8 sm:w-8 text-indigo-600 flex-shrink-0" />
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+              Smart Hashtag Generator
+            </h1>
           </div>
-          <p className="text-gray-600 text-lg">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-600 px-4">
             Enter your title and get smart keywords, search terms & platform hashtags
           </p>
         </div>
 
-        {/* Input Section */}
-        <Card className="shadow-lg">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-indigo-600" />
-              Content Title
+        {/* Input Section - Mobile optimized */}
+        <Card className="shadow-lg mx-1 sm:mx-0">
+          <CardHeader className="pb-3 sm:pb-6">
+            <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+              <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-indigo-600 flex-shrink-0" />
+              <span>Content Title</span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-3 sm:space-y-4">
             <Textarea
               placeholder="Enter your content title... (e.g., 'How to Build a React App in 10 Minutes - Complete Beginner Tutorial')"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="min-h-[80px] resize-none text-lg"
+              className="min-h-[80px] sm:min-h-[100px] resize-none text-sm sm:text-base lg:text-lg leading-relaxed"
               maxLength={200}
             />
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-500">{title.length}/200 characters</span>
-              <div className="flex gap-2">
-                <Button variant="outline" onClick={clearAll} disabled={!title && !hasAnyHashtags && !hasExtractedData}>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <span className="text-xs sm:text-sm text-gray-500 order-2 sm:order-1">{title.length}/200 characters</span>
+              <div className="flex gap-2 order-1 sm:order-2">
+                <Button
+                  variant="outline"
+                  onClick={clearAll}
+                  disabled={!title && !hasAnyHashtags && !hasExtractedData}
+                  className="flex-1 sm:flex-none text-sm bg-transparent"
+                >
                   Clear All
                 </Button>
                 <Button
                   onClick={generateHashtags}
                   disabled={isGenerating || !title.trim()}
-                  className="bg-indigo-600 hover:bg-indigo-700"
+                  className="bg-indigo-600 hover:bg-indigo-700 flex-1 sm:flex-none text-sm"
                 >
                   {isGenerating ? (
                     <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-                      Analyzing Title...
+                      <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-white mr-2" />
+                      <span className="hidden sm:inline">Analyzing...</span>
+                      <span className="sm:hidden">Analyzing</span>
                     </>
                   ) : (
                     <>
-                      <Search className="h-4 w-4 mr-2" />
-                      Analyze & Generate
+                      <Search className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
+                      <span className="hidden sm:inline">Analyze & Generate</span>
+                      <span className="sm:hidden">Generate</span>
                     </>
                   )}
                 </Button>
@@ -683,21 +715,24 @@ const HashtagGenerator: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* Extracted Data Section */}
+        {/* Extracted Data Section - Mobile optimized */}
         {hasExtractedData && (
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 mx-1 sm:mx-0">
             {/* Keywords */}
             <Card className="shadow-lg">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-green-700">
-                  <Tag className="h-5 w-5" />
-                  Keywords ({extractedData.keywords.length})
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-green-700 text-base sm:text-lg">
+                  <Tag className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+                  <span>Keywords ({extractedData.keywords.length})</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
+              <CardContent className="pt-0">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {extractedData.keywords.map((keyword, index) => (
-                    <Badge key={index} className="bg-green-100 text-green-800">
+                    <Badge
+                      key={index}
+                      className="bg-green-100 text-green-800 text-xs sm:text-sm py-1 px-2 sm:py-1.5 sm:px-2.5"
+                    >
                       {keyword}
                     </Badge>
                   ))}
@@ -707,21 +742,27 @@ const HashtagGenerator: React.FC = () => {
 
             {/* Search Terms */}
             <Card className="shadow-lg">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="flex items-center gap-2 text-blue-700">
-                    <Search className="h-5 w-5" />
-                    Search Terms ({extractedData.searchTerms.length})
+              <CardHeader className="pb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <CardTitle className="flex items-center gap-2 text-blue-700 text-base sm:text-lg">
+                    <Search className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+                    <span>Search Terms ({extractedData.searchTerms.length})</span>
                   </CardTitle>
-                  <Button variant="outline" size="sm" onClick={copySearchTerms}>
-                    <Copy className="h-4 w-4" />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={copySearchTerms}
+                    className="h-8 w-8 p-0 sm:h-9 sm:w-auto sm:px-3 self-start sm:self-auto bg-transparent"
+                  >
+                    <Copy className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="hidden sm:inline ml-1">Copy</span>
                   </Button>
                 </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-0">
                 <div className="space-y-2">
                   {extractedData.searchTerms.slice(0, 6).map((term, index) => (
-                    <div key={index} className="text-sm bg-blue-50 p-2 rounded border">
+                    <div key={index} className="text-xs sm:text-sm bg-blue-50 p-2 rounded border break-words">
                       "{term}"
                     </div>
                   ))}
@@ -730,17 +771,21 @@ const HashtagGenerator: React.FC = () => {
             </Card>
 
             {/* Related Topics */}
-            <Card className="shadow-lg">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-purple-700">
-                  <Hash className="h-5 w-5" />
-                  Related Topics ({extractedData.relatedTopics.length})
+            <Card className="shadow-lg lg:col-span-1">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-purple-700 text-base sm:text-lg">
+                  <Hash className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+                  <span>Related Topics ({extractedData.relatedTopics.length})</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
+              <CardContent className="pt-0">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {extractedData.relatedTopics.slice(0, 8).map((topic, index) => (
-                    <Badge key={index} variant="outline" className="text-purple-700 border-purple-300">
+                    <Badge
+                      key={index}
+                      variant="outline"
+                      className="text-purple-700 border-purple-300 text-xs sm:text-sm py-1 px-2 sm:py-1.5 sm:px-2.5"
+                    >
                       {topic}
                     </Badge>
                   ))}
@@ -750,26 +795,35 @@ const HashtagGenerator: React.FC = () => {
           </div>
         )}
 
-        {/* Platform Hashtags Section */}
+        {/* Platform Hashtags Section - Mobile optimized */}
         {hasAnyHashtags && (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6 mx-1 sm:mx-0">
             <Tabs defaultValue="youtube" className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="youtube" className="flex items-center gap-2">
-                  <Youtube className="h-4 w-4" />
-                  YouTube
+              <TabsList className="grid w-full grid-cols-3 h-auto p-1">
+                <TabsTrigger
+                  value="youtube"
+                  className="flex items-center gap-1 sm:gap-2 py-2 px-2 sm:px-4 text-xs sm:text-sm"
+                >
+                  <Youtube className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                  <span className="truncate">YouTube</span>
                 </TabsTrigger>
-                <TabsTrigger value="facebook" className="flex items-center gap-2">
-                  <Facebook className="h-4 w-4" />
-                  Facebook
+                <TabsTrigger
+                  value="facebook"
+                  className="flex items-center gap-1 sm:gap-2 py-2 px-2 sm:px-4 text-xs sm:text-sm"
+                >
+                  <Facebook className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                  <span className="truncate">Facebook</span>
                 </TabsTrigger>
-                <TabsTrigger value="instagram" className="flex items-center gap-2">
-                  <Instagram className="h-4 w-4" />
-                  Instagram
+                <TabsTrigger
+                  value="instagram"
+                  className="flex items-center gap-1 sm:gap-2 py-2 px-2 sm:px-4 text-xs sm:text-sm"
+                >
+                  <Instagram className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                  <span className="truncate">Instagram</span>
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="youtube" className="mt-6">
+              <TabsContent value="youtube" className="mt-4 sm:mt-6">
                 <PlatformCard
                   platform="youtube"
                   icon={Youtube}
@@ -778,7 +832,7 @@ const HashtagGenerator: React.FC = () => {
                 />
               </TabsContent>
 
-              <TabsContent value="facebook" className="mt-6">
+              <TabsContent value="facebook" className="mt-4 sm:mt-6">
                 <PlatformCard
                   platform="facebook"
                   icon={Facebook}
@@ -787,7 +841,7 @@ const HashtagGenerator: React.FC = () => {
                 />
               </TabsContent>
 
-              <TabsContent value="instagram" className="mt-6">
+              <TabsContent value="instagram" className="mt-4 sm:mt-6">
                 <PlatformCard
                   platform="instagram"
                   icon={Instagram}
@@ -799,14 +853,16 @@ const HashtagGenerator: React.FC = () => {
           </div>
         )}
 
-        {/* Tips Section */}
-        <Card className="shadow-lg bg-gradient-to-r from-indigo-50 to-purple-50">
-          <CardContent className="pt-6">
-            <h3 className="font-semibold text-gray-900 mb-4">💡 Title Analysis Features:</h3>
-            <div className="grid md:grid-cols-2 gap-4 text-sm">
+        {/* Tips Section - Mobile optimized */}
+        <Card className="shadow-lg bg-gradient-to-r from-indigo-50 to-purple-50 mx-1 sm:mx-0">
+          <CardContent className="pt-4 sm:pt-6">
+            <h3 className="font-semibold text-gray-900 mb-3 sm:mb-4 text-base sm:text-lg">
+              💡 Title Analysis Features:
+            </h3>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs sm:text-sm">
               <div className="space-y-2">
-                <h4 className="font-medium text-indigo-700">Smart Extraction:</h4>
-                <ul className="space-y-1 text-gray-600">
+                <h4 className="font-medium text-indigo-700 text-sm sm:text-base">Smart Extraction:</h4>
+                <ul className="space-y-1 text-gray-600 leading-relaxed">
                   <li>• Extracts key concepts from your title</li>
                   <li>• Identifies content type (tutorial, review, etc.)</li>
                   <li>• Generates related search terms</li>
@@ -814,8 +870,8 @@ const HashtagGenerator: React.FC = () => {
                 </ul>
               </div>
               <div className="space-y-2">
-                <h4 className="font-medium text-purple-700">Platform Optimization:</h4>
-                <ul className="space-y-1 text-gray-600">
+                <h4 className="font-medium text-purple-700 text-sm sm:text-base">Platform Optimization:</h4>
+                <ul className="space-y-1 text-gray-600 leading-relaxed">
                   <li>• YouTube: Focus on searchability & trends</li>
                   <li>• Facebook: Community & engagement focused</li>
                   <li>• Instagram: Aesthetic & discovery optimized</li>
