@@ -628,7 +628,7 @@ const HashtagGenerator: React.FC = () => {
         <div className="text-center space-y-2">
           <div className="flex items-center justify-center gap-2">
             <Hash className="h-8 w-8 text-indigo-600" />
-            <h1 className="text-4xl font-bold text-gray-900">Hashtag Finder — Boost Your Reach to Hashtag Generator</h1>
+            <h1 className="text-4xl font-bold text-gray-900">Hashtag Finder — Boost Your Reach toHashtag Generator</h1>
           </div>
           <p className="text-gray-600 text-lg">
             Enter your title and get smart keywords, search terms & platform hashtags
