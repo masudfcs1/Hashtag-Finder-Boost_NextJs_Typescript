@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules_of_hooks */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/no-unescaped-entities */
 
